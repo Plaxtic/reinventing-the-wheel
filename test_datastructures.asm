@@ -111,8 +111,6 @@ main:
     jmp broke
 
 
-
-
     ;; --------------- list and binary heap array -----
 test_list:
 
@@ -212,9 +210,6 @@ fill_list:
     ;; ------------------------------------------------
 
 
-
-
-
     ;; ------------------ pointer based binary heap ----
 
     ;; reuse variables
@@ -258,9 +253,6 @@ fill_tree:
     mov rdi, [rbp + head]
     call delete_tree
     ;; ------------------------------------------------
-
-
-
 
 
     ;; exit success

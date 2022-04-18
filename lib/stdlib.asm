@@ -17,6 +17,7 @@ exit:
     mov al, SYS_EXIT 
     syscall
 
+
 ;; int strcmp(char *rdi, char *rsi)
 strcmp:
     ; push and clear
@@ -28,19 +29,20 @@ strcmp:
     xor rdx, rdx
     xor rbx, rbx
 
+
 strcmp_loop:
     mov dl, byte [rdi] 
     mov bl, byte [rsi] 
 
     test dl, dl
-    jz test2
+    jz strcmp_test2
     sub dl, bl
     add rax, rdx 
     inc rdi
     inc rsi
     jmp strcmp_loop
 
-test2:
+strcmp_test2:
     test bl, bl
     jz strcmp_ret
     sub dl, bl
@@ -52,6 +54,7 @@ strcmp_ret:
     pop bx
     pop dx
     ret
+
 
 ;; int strncmp(char *rdi, char *rsi, int rdx)
 strncmp:
@@ -74,7 +77,7 @@ strncmp_loop:
     test rcx, rcx
     jz strncmp_ret 
     test dl, dl
-    jz testn
+    jz strncmp_test
     sub dl, bl
     add rax, rdx 
     inc rdi
@@ -82,7 +85,7 @@ strncmp_loop:
     dec rcx
     jmp strncmp_loop
 
-testn:
+strncmp_test:
     test bl, bl
     jz strncmp_ret
     sub dl, bl
@@ -95,6 +98,7 @@ strncmp_ret:
     pop rcx
     pop rdx
     ret
+
 
 ;; char *strchr(char *rdi, char sil)
 strchr:
@@ -126,6 +130,7 @@ strchr_ret:
     pop rdi
     ret
 
+
 ;; int strlen(char *rdi) 
 strlen:
     push rdi
@@ -141,6 +146,7 @@ strlen_ret:
     pop rdi
     sub rax, rdi
     ret
+
 
 ;; long strtoul(char *rdi, void *rsi, int rdx)
 strtoul:
@@ -173,7 +179,7 @@ strtoul_len: ; <--------------|
     mov r8, rax
     xor rax, rax
 
-; while r8 != 0 
+    ; while r8 != 0 
 strtoul_loop:
     xor rdx, rdx
     test r8, r8 
@@ -231,6 +237,7 @@ strtoul_ret:
     pop rdi
     ret
 
+
 ;; strcat(char *rdi, char *rsi)
 strcat:
     push rdi
@@ -240,19 +247,20 @@ strcat:
     call strlen
     add rdi, rax
 
-cat_loop:
+strcat_loop:
     mov al, byte [rsi]
     mov [rdi], al
     test al, al
     jz strcat_ret
     inc rsi
-    jmp cat_loop
+    jmp strcat_loop
 
 strcat_ret:
     pop r8
     pop rsi
     pop rdi
     ret
+
 
 ;; int atoi(char *rdi)    
 atoi:
@@ -264,7 +272,7 @@ atoi:
     mov r8, rax
     xor rax, rax
 
-; while r8 != 0 
+    ; while r8 != 0 
 atoi_loop:
     xor rdx, rdx
     test r8, r8 
@@ -304,6 +312,7 @@ atoi_fail:
 atoi_ret:
     pop rdi
     ret
+
 
 ;; log10(int rdi)
 log10:
@@ -406,6 +415,7 @@ itoa_ret:
     leave
     ret
 
+
 ;; int strcpy(char *rdi, char *rsi)
 strcpy:
     push rdi
@@ -430,6 +440,7 @@ strcpy_loop_end:
     pop rdi
     ret
 
+
 ;; memset(void *rdi, char sil, int rdx)
 memset:
     push rdi
@@ -446,6 +457,7 @@ memset_loop:
     pop rdi
     ret
 
+
 ;; memcpy(void *rdi, void *rsi, int rdx)
 memcpy:
     push rcx
@@ -457,6 +469,7 @@ memcpy:
     pop r8
     pop rcx
     ret
+
 
 ;void puts(char *rdi)
 puts:
@@ -482,6 +495,7 @@ puts:
     pop rsi
     pop rdi
     ret
+
 
 ; char *gets(char *rdi)
 gets:
@@ -520,6 +534,7 @@ gets_ret:
     pop rdi
 
     ret
+
 
 ;; long pow(rdi, rsi)
 pow:
